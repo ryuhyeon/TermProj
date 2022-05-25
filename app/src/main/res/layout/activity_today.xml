@@ -60,6 +60,7 @@
             android:background="@color/white"
             android:id="@+id/container"
             android:orientation="vertical"
+            android:padding="10dp"
             >
 
         </LinearLayout>

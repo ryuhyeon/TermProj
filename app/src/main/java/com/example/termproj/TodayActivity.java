@@ -68,11 +68,11 @@ public class TodayActivity extends Activity {
         tv2.setGravity(Gravity.CENTER);
         tv2.setTextColor(Color.BLACK);
         LinearLayout.LayoutParams tv2params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-        tv2params.width=180;
+        tv2params.width=480;
         LayoutInflater inflater=(LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout likes_form=(LinearLayout) inflater.inflate(R.layout.likes_form,null);
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.width=50;
+        params.width=150;
         params.height=110;
 
 
