@@ -97,12 +97,7 @@ public class TodayActivity extends Activity {
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
         params.width=150;
         params.height=110;
-        likes_form.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(TodayActivity.this,"TEST"+tv2.getText()+" OK", Toast.LENGTH_SHORT).show();
-            }
-        });
+
         TextView num=new TextView(this);
         for(int j=0;j<ratelist.size();j++){
             if(tv2.getText().equals(ratelist.get(j).getContent_name())){
@@ -115,8 +110,16 @@ public class TodayActivity extends Activity {
         num.setWidth(70);
         num.setPadding(10,4,0,0);
         num.setGravity(View.TEXT_ALIGNMENT_TEXT_START);
-        likes_form.setClickable(false);
+
         likes_form.addView(num);
+        likes_form.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                likes_form.setClickable(false);
+                Toast.makeText(TodayActivity.this,"TEST"+tv2.getText()+" OK", Toast.LENGTH_SHORT).show();
+                num.setText(""+(Integer.parseInt((String) num.getText())+1));
+            }
+        });
 
         newRow.addView(tv1,tv1params);
         newRow.addView(tv2,tv2params);
