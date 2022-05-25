@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -45,10 +47,12 @@ public class TodayActivity extends Activity {
         ArrayList<String>[] day_data=Task.convertData(resultText);
         //데이터 가져오기 완료
         for(int i=0;i<day_data[2].size();i++){
-            addLine(day_data[2].get(i));
+            addLine(day_data[2].get(i),i);
         }
+
+
     }
-    private void addLine(String data){
+    private void addLine(String data,int i){
         LinearLayout container=(LinearLayout) findViewById(R.id.container);
 
         LinearLayout newRow=new LinearLayout(this);
@@ -74,7 +78,12 @@ public class TodayActivity extends Activity {
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
         params.width=150;
         params.height=110;
-
+        likes_form.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(TodayActivity.this,"TEST"+tv2.getText()+" OK", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         newRow.addView(tv1,tv1params);
         newRow.addView(tv2,tv2params);
