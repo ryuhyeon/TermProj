@@ -3,12 +3,17 @@ package com.example.termproj;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -17,12 +22,26 @@ public class rateTask extends AsyncTask<String, Void, String> {
     //String clientKey = "#########################";
     private String str, receiveMsg;
     //private final String ID = "########";
-
+    ArrayList<String> data;
     @Override
     protected String doInBackground(String... params) {
         URL url = null;
+        String APIkey="CPB5QJ3-9RN4SXB-G2MPDV9-MZ7MAST";
+        String s="";
+        for(int i=0;i<data.size();i++){
+            s+="\'";
+            s+=data.get(i).replace("&","과");
+            if(i==data.size()-1){
+                s+="\'";
+                break;
+            }
+            s+="\',";
+        }
+
+        Log.e("parsing",s);
         try {
-            url = new URL("http://haksik.us-west-2.elasticbeanstalk.com/get/haksik_data"); // 서버 URL
+
+            url = new URL("http://haksik.us-west-2.elasticbeanstalk.com/rate?apikey="+APIkey+"&content="+s); // 서버 URL
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
@@ -57,31 +76,29 @@ public class rateTask extends AsyncTask<String, Void, String> {
 
         return receiveMsg;
     }
-    public static String StringReplace(String str){
-        String match = "[\\[\\] \"]";
-        str = str.replaceAll(match, "");
-        return str;
+    public void dataTransfer(ArrayList<String> data){
+        this.data=data;
     }
-    public static ArrayList<String>[] convertData(String str){
-        ArrayList<String>[] day_data=new ArrayList[5];
-
-        String[] day=str.split("],");
-
-        for(int i=0;i<day.length;i++){
-            Log.e("DATA : ",day[i]);
-            day[i]=StringReplace(day[i]);
-            String[] sp=day[i].split(",");
-            for(String z :sp){
-                Log.i("DEBUG : ",z);
+    public static ArrayList<rateFood> dataParse(String s){
+        try{
+            ArrayList<rateFood> list=new ArrayList<rateFood>();
+            JSONObject obj;
+            JSONArray arr=new JSONArray(s);
+            String[] jsonName={"content_name","total_star"};
+            String[][] parseredData=new String[arr.length()][jsonName.length];
+            for(int i=0;i<arr.length();i++){
+                rateFood rate=new rateFood();
+                obj=arr.getJSONObject(i);
+                if(obj!=null){
+                    rate.setContent_name(obj.getString(jsonName[0]));
+                    rate.setTotal_star(obj.getInt(jsonName[1]));
+                }
+                list.add(rate);
             }
-            day_data[i]= new ArrayList<String>(Arrays.asList(sp));
-        };
-        for(int i=0;i<day.length;i++){
-            for(int j=0;j<day_data[i].size();j++){
-                Log.e("DAY"+i+" : ",day_data[i].get(j));
-            }
+            return list;
+        }catch (JSONException e) {
+            e.printStackTrace();
         }
-        Log.e("TEST : ",day_data[0].get(0));
-        return day_data;
+        return null;
     }
 }

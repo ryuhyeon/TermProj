@@ -25,11 +25,12 @@ import org.w3c.dom.Text;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.zip.Inflater;
 
 public class TodayActivity extends Activity {
-
+    ArrayList<rateFood> ratelist;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,24 @@ public class TodayActivity extends Activity {
         //Log.e("[DATA]",resultText);
         ArrayList<String>[] day_data=Task.convertData(resultText);
         //데이터 가져오기 완료
+        //추천 데이터 가져오기
+        String rateResult="[NULL]";
+        rateTask rate=new rateTask();
+        rate.dataTransfer(day_data[2]);
+        try {
+            rateResult = rate.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        Log.e("rateDATA",rateResult);
+        ratelist = rateTask.dataParse(rateResult);
+        for(int i=0;i<ratelist.size();i++){
+            Log.e("parsered","name:"+ratelist.get(i).getContent_name()+"   star : "+ratelist.get(i).getTotal_star());
+        }
+        //추천 데이터 종료
+        //줄 추가
         for(int i=0;i<day_data[2].size();i++){
             addLine(day_data[2].get(i),i);
         }
@@ -84,6 +103,20 @@ public class TodayActivity extends Activity {
                 Toast.makeText(TodayActivity.this,"TEST"+tv2.getText()+" OK", Toast.LENGTH_SHORT).show();
             }
         });
+        TextView num=new TextView(this);
+        for(int j=0;j<ratelist.size();j++){
+            if(tv2.getText().equals(ratelist.get(j).getContent_name())){
+                num.setText(""+ratelist.get(j).getTotal_star());
+            }else{
+                num.setText("0");
+            }
+        }
+        num.setTextSize(10);
+        num.setWidth(70);
+        num.setPadding(10,4,0,0);
+        num.setGravity(View.TEXT_ALIGNMENT_TEXT_START);
+        likes_form.setClickable(false);
+        likes_form.addView(num);
 
         newRow.addView(tv1,tv1params);
         newRow.addView(tv2,tv2params);
@@ -92,5 +125,7 @@ public class TodayActivity extends Activity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
+
+
     }
 }

@@ -25,8 +25,9 @@ public class Task extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         URL url = null;
+        String APIkey="CPB5QJ3-9RN4SXB-G2MPDV9-MZ7MAST";
         try {
-            url = new URL("http://haksik.us-west-2.elasticbeanstalk.com/get/haksik_data"); // 서버 URL
+            url = new URL("http://haksik.us-west-2.elasticbeanstalk.com/get/haksik_data?apikey="+APIkey); // 서버 URL
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
