@@ -89,4 +89,28 @@ public class Task extends AsyncTask<String, Void, String> {
         Log.e("TEST : ",day_data[0].get(0));
         return day_data;
     }
+    public static ArrayList<rateFood>[] newConvertData(String str){
+        ArrayList<String>[] day_data=new ArrayList[5];
+        ArrayList<rateFood>[] data=new ArrayList[5];
+
+        String[] day=str.split("],");
+
+        for(int i=0;i<day.length;i++){
+            Log.e("DATA : ",day[i]);
+            day[i]=StringReplace(day[i]);
+            String[] sp=day[i].split(",");
+
+            day_data[i]= new ArrayList<String>(Arrays.asList(sp));
+        };
+        for(int i=0;i<day.length;i++){
+            for(int j=0;j<day_data[i].size();j++){
+                rateFood obj=new rateFood();
+                obj.setContent_name(day_data[i].get(j));
+                obj.setTotal_star(0);
+                data[i].add(j,obj);
+            }
+        }
+
+        return data;
+    }
 }

@@ -13,11 +13,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class rateTask extends AsyncTask<String, Void, String> {
+public class UpdateRate extends AsyncTask<String, Void, String> {
 
     //String clientKey = "#########################";
     private String str, receiveMsg;
@@ -80,9 +78,9 @@ public class rateTask extends AsyncTask<String, Void, String> {
     public void dataTransfer(ArrayList<rateFood> data){
         this.newData=data;
     }
-    public ArrayList<rateFood> dataParse(String s){
+    public static ArrayList<rateFood> dataParse(String s){
         try{
-            //rrayList<rateFood> list=new ArrayList<rateFood>();
+            ArrayList<rateFood> list=new ArrayList<rateFood>();
             JSONObject obj;
             JSONArray arr=new JSONArray(s);
             String[] jsonName={"content_name","total_star"};
@@ -91,16 +89,10 @@ public class rateTask extends AsyncTask<String, Void, String> {
                 rateFood rate=new rateFood();
                 obj=arr.getJSONObject(i);
                 if(obj!=null){
-                    for(int j=0;j<newData.size();i++){
-                        if(newData.get(j).getContent_name().equals(obj.getString(jsonName[0]))){
-                            newData.get(j).setTotal_star(obj.getInt(jsonName[1]));
-                        }
-                    }
-
                     rate.setContent_name(obj.getString(jsonName[0]));
                     rate.setTotal_star(obj.getInt(jsonName[1]));
                 }
-                //list.add(rate);
+                list.add(rate);
             }
             return list;
         }catch (JSONException e) {

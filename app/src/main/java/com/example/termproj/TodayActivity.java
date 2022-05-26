@@ -46,11 +46,12 @@ public class TodayActivity extends Activity {
         }
         //Log.e("[DATA]",resultText);
         ArrayList<String>[] day_data=Task.convertData(resultText);
+        ArrayList<rateFood>[] data=Task.newConvertData(resultText);
         //데이터 가져오기 완료
         //추천 데이터 가져오기
         String rateResult="[NULL]";
         rateTask rate=new rateTask();
-        rate.dataTransfer(day_data[2]);
+        rate.dataTransfer(data[2]);
         try {
             rateResult = rate.execute().get();
         } catch (InterruptedException e) {
@@ -59,7 +60,7 @@ public class TodayActivity extends Activity {
             e.printStackTrace();
         }
         Log.e("rateDATA",rateResult);
-        ratelist = rateTask.dataParse(rateResult);
+        ratelist = rate.dataParse(rateResult);
         for(int i=0;i<ratelist.size();i++){
             Log.e("parsered","name:"+ratelist.get(i).getContent_name()+"   star : "+ratelist.get(i).getTotal_star());
         }
