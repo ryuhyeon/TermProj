@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ public class TodayActivity extends Activity {
     private static final int PERMISSIONS_REQUEST_CODE = 22;
     ArrayList<rateFood> ratelist;
     ArrayList<rateFood>[] data_list;
-    String uid;
+    String uid="";
     int d=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,31 +97,37 @@ public class TodayActivity extends Activity {
     private void addLine(rateFood data,int i){
         LinearLayout container= findViewById(R.id.container);
 
-        LinearLayout newRow=new LinearLayout(this);
-        newRow.setOrientation(LinearLayout.HORIZONTAL);
+        RelativeLayout newRow=new RelativeLayout(this);
+        //newRow.setOrientation(LinearLayout.HORIZONTAL);
         newRow.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
+
         TextView tv1=new TextView(this);
         tv1.setText("◎");
         tv1.setGravity(Gravity.CENTER);
         //tv1.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
         tv1.setTextColor(Color.BLACK);
         tv1.setPadding(0,10,0,0);
-        LinearLayout.LayoutParams tv1params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-        tv1params.width=50;
+        RelativeLayout.LayoutParams tv1params=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        tv1params.width= LinearLayout.LayoutParams.WRAP_CONTENT;
+        tv1params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         TextView tv2=new TextView(this);
         tv2.setText(data.getContent_name());
         tv2.setGravity(Gravity.CENTER);
         //tv2.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
         tv2.setTextColor(Color.BLACK);
         tv2.setPadding(0,10,0,0);
-        LinearLayout.LayoutParams tv2params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-        tv2params.width=480;
+        RelativeLayout.LayoutParams tv2params=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        tv2params.width=LinearLayout.LayoutParams.WRAP_CONTENT;
+        tv2params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        tv2params.leftMargin=20;
+        tv2params.rightMargin=20;
         LayoutInflater inflater=(LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout likes_form=(LinearLayout) inflater.inflate(R.layout.likes_form,null);
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         params.width=150;
         params.height=110;
 
@@ -135,9 +142,9 @@ public class TodayActivity extends Activity {
         }
          */
         num.setText(""+data.getTotal_star());
-        num.setTextSize(10);
+        num.setTextSize(13);
         num.setWidth(70);
-        num.setPadding(10,4,0,0);
+        num.setPadding(10,8,0,0);
         num.setGravity(View.TEXT_ALIGNMENT_TEXT_START);
 
         likes_form.addView(num);
@@ -178,8 +185,10 @@ public class TodayActivity extends Activity {
         });
 
         newRow.addView(tv1,tv1params);
+
         newRow.addView(tv2,tv2params);
         newRow.addView(likes_form,params);
+
         container.addView(newRow,new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
