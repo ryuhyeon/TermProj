@@ -31,6 +31,8 @@ import java.util.zip.Inflater;
 
 public class TodayActivity extends Activity {
     ArrayList<rateFood> ratelist;
+    ArrayList<rateFood>[] data_list;
+    int d=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +48,13 @@ public class TodayActivity extends Activity {
         }
         //Log.e("[DATA]",resultText);
         ArrayList<String>[] day_data=Task.convertData(resultText);
-        ArrayList<rateFood>[] data=Task.newConvertData(resultText);
+        data_list=Task.newConvertData(day_data);
         //데이터 가져오기 완료
         //추천 데이터 가져오기
         String rateResult="[NULL]";
         rateTask rate=new rateTask();
-        rate.dataTransfer(data[2]);
+        Log.e("DT : ",data_list[d].toString());
+        rate.dataTransfer(data_list[d]);
         try {
             rateResult = rate.execute().get();
         } catch (InterruptedException e) {
@@ -59,21 +62,23 @@ public class TodayActivity extends Activity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        Log.e("rateDATA",rateResult);
-        ratelist = rate.dataParse(rateResult);
-        for(int i=0;i<ratelist.size();i++){
-            Log.e("parsered","name:"+ratelist.get(i).getContent_name()+"   star : "+ratelist.get(i).getTotal_star());
+        //Log.e("rateDATA",rateResult);
+
+        data_list[d] = rate.dataParse(rateResult);
+        for(int i=0;i<data_list[d].size();i++){
+            Log.e("parsered","name:"+data_list[d].get(i).getContent_name()+"   star : "+data_list[d].get(i).getTotal_star());
         }
+
         //추천 데이터 종료
         //줄 추가
-        for(int i=0;i<day_data[2].size();i++){
-            addLine(day_data[2].get(i),i);
+        for(int i=0;i<data_list[d].size();i++){
+            addLine(data_list[d].get(i),i);
         }
 
 
     }
-    private void addLine(String data,int i){
-        LinearLayout container=(LinearLayout) findViewById(R.id.container);
+    private void addLine(rateFood data,int i){
+        LinearLayout container= findViewById(R.id.container);
 
         LinearLayout newRow=new LinearLayout(this);
         newRow.setOrientation(LinearLayout.HORIZONTAL);
@@ -84,13 +89,17 @@ public class TodayActivity extends Activity {
         TextView tv1=new TextView(this);
         tv1.setText("◎");
         tv1.setGravity(Gravity.CENTER);
+        //tv1.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
         tv1.setTextColor(Color.BLACK);
+        tv1.setPadding(0,10,0,0);
         LinearLayout.LayoutParams tv1params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
         tv1params.width=50;
         TextView tv2=new TextView(this);
-        tv2.setText(data);
+        tv2.setText(data.getContent_name());
         tv2.setGravity(Gravity.CENTER);
+        //tv2.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
         tv2.setTextColor(Color.BLACK);
+        tv2.setPadding(0,10,0,0);
         LinearLayout.LayoutParams tv2params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
         tv2params.width=480;
         LayoutInflater inflater=(LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -100,26 +109,26 @@ public class TodayActivity extends Activity {
         params.height=110;
 
         TextView num=new TextView(this);
-        for(int j=0;j<ratelist.size();j++){
-            if(tv2.getText().equals(ratelist.get(j).getContent_name())){
-                num.setText(""+ratelist.get(j).getTotal_star());
+        /*
+        for(int j=0;j<data_list[d].size();j++){
+            if(tv2.getText().equals(data_list[d].get(j).getContent_name())){
+                num.setText(""+data_list[d].get(j).getTotal_star());
             }else{
                 num.setText("0");
             }
         }
+         */
+        num.setText(""+data.getTotal_star());
         num.setTextSize(10);
         num.setWidth(70);
         num.setPadding(10,4,0,0);
         num.setGravity(View.TEXT_ALIGNMENT_TEXT_START);
 
         likes_form.addView(num);
-        likes_form.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                likes_form.setClickable(false);
-                Toast.makeText(TodayActivity.this,"TEST"+tv2.getText()+" OK", Toast.LENGTH_SHORT).show();
-                num.setText(""+(Integer.parseInt((String) num.getText())+1));
-            }
+        likes_form.setOnClickListener(view -> {
+            likes_form.setClickable(false);
+            Toast.makeText(TodayActivity.this,"TEST"+tv2.getText()+" OK", Toast.LENGTH_SHORT).show();
+            num.setText(""+(Integer.parseInt((String) num.getText())+1));
         });
 
         newRow.addView(tv1,tv1params);

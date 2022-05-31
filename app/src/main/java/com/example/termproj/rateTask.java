@@ -13,9 +13,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class rateTask extends AsyncTask<String, Void, String> {
 
@@ -29,10 +27,10 @@ public class rateTask extends AsyncTask<String, Void, String> {
         URL url = null;
         String APIkey="CPB5QJ3-9RN4SXB-G2MPDV9-MZ7MAST";
         String s="";
-        for(int i=0;i<data.size();i++){
+        for(int i=0;i<newData.size();i++){
             s+="\'";
-            s+=data.get(i).replace("&","과");
-            if(i==data.size()-1){
+            s+=newData.get(i).getContent_name().replace("&","과");
+            if(i==newData.size()-1){
                 s+="\'";
                 break;
             }
@@ -80,29 +78,26 @@ public class rateTask extends AsyncTask<String, Void, String> {
     public void dataTransfer(ArrayList<rateFood> data){
         this.newData=data;
     }
+
     public ArrayList<rateFood> dataParse(String s){
         try{
-            //rrayList<rateFood> list=new ArrayList<rateFood>();
+            ArrayList<rateFood> list=new ArrayList<rateFood>();
             JSONObject obj;
             JSONArray arr=new JSONArray(s);
             String[] jsonName={"content_name","total_star"};
-            String[][] parseredData=new String[arr.length()][jsonName.length];
+            //String[][] parseredData=new String[arr.length()][jsonName.length];
             for(int i=0;i<arr.length();i++){
-                rateFood rate=new rateFood();
                 obj=arr.getJSONObject(i);
+                Log.e("debug",obj.getString(jsonName[0]));
                 if(obj!=null){
-                    for(int j=0;j<newData.size();i++){
+                    for(int j=0;j<newData.size();j++){
                         if(newData.get(j).getContent_name().equals(obj.getString(jsonName[0]))){
                             newData.get(j).setTotal_star(obj.getInt(jsonName[1]));
                         }
                     }
-
-                    rate.setContent_name(obj.getString(jsonName[0]));
-                    rate.setTotal_star(obj.getInt(jsonName[1]));
                 }
-                //list.add(rate);
             }
-            return list;
+            return newData;
         }catch (JSONException e) {
             e.printStackTrace();
         }
