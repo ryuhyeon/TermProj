@@ -17,34 +17,21 @@ import java.util.ArrayList;
 
 public class UpdateRate extends AsyncTask<String, Void, String> {
 
-    //String clientKey = "#########################";
-    private String str, receiveMsg;
-    //private final String ID = "########";
-    ArrayList<String> data;
-    ArrayList<rateFood> newData;
+
+    private String str;
+    private String uid;
+    String APIkey="CPB5QJ3-9RN4SXB-G2MPDV9-MZ7MAST";
     @Override
     protected String doInBackground(String... params) {
         URL url = null;
-        String APIkey="CPB5QJ3-9RN4SXB-G2MPDV9-MZ7MAST";
-        String s="";
-        for(int i=0;i<data.size();i++){
-            s+="\'";
-            s+=data.get(i).replace("&","과");
-            if(i==data.size()-1){
-                s+="\'";
-                break;
-            }
-            s+="\',";
-        }
-
-        Log.e("parsing",s);
+        String rcode="";
         try {
 
-            url = new URL("http://haksik.us-west-2.elasticbeanstalk.com/rate?apikey="+APIkey+"&content="+s); // 서버 URL
-
+            url = new URL("http://haksik.us-west-2.elasticbeanstalk.com/rate?apikey="+APIkey+"&menu='"+str+"'&uid="+uid); // 서버 URL
+            Log.e("URL:",url.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod("POST");
             conn.setRequestProperty("Accept", "application/json");
 
 
@@ -53,17 +40,9 @@ public class UpdateRate extends AsyncTask<String, Void, String> {
             conn.connect();
             //conn.setRequestProperty("x-waple-authorization", clientKey);
             int code=conn.getResponseCode();
+            rcode=""+code;
             if (code==200) {
-                InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
-                BufferedReader reader = new BufferedReader(tmp);
-                StringBuffer buffer = new StringBuffer();
-                while ((str = reader.readLine()) != null) {
-                    buffer.append(str);
-                }
-                receiveMsg = buffer.toString();
-                Log.i("receiveMsg : ", receiveMsg);
-
-                reader.close();
+                Log.i("POST결과","StatusCode:200");
             } else {
                 Log.i("결과", conn.getResponseCode() + "Error");
             }
@@ -73,31 +52,11 @@ public class UpdateRate extends AsyncTask<String, Void, String> {
             e.printStackTrace();
         }
 
-        return receiveMsg;
+        return rcode;
     }
-    public void dataTransfer(ArrayList<rateFood> data){
-        this.newData=data;
+    UpdateRate(String s,String uid){
+        str=s;
+        this.uid=uid;
     }
-    public static ArrayList<rateFood> dataParse(String s){
-        try{
-            ArrayList<rateFood> list=new ArrayList<rateFood>();
-            JSONObject obj;
-            JSONArray arr=new JSONArray(s);
-            String[] jsonName={"content_name","total_star"};
-            String[][] parseredData=new String[arr.length()][jsonName.length];
-            for(int i=0;i<arr.length();i++){
-                rateFood rate=new rateFood();
-                obj=arr.getJSONObject(i);
-                if(obj!=null){
-                    rate.setContent_name(obj.getString(jsonName[0]));
-                    rate.setTotal_star(obj.getInt(jsonName[1]));
-                }
-                list.add(rate);
-            }
-            return list;
-        }catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 }

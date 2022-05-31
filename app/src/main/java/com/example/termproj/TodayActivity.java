@@ -1,10 +1,16 @@
 package com.example.termproj;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -30,13 +37,24 @@ import java.util.concurrent.ExecutionException;
 import java.util.zip.Inflater;
 
 public class TodayActivity extends Activity {
+    private static final int PERMISSIONS_REQUEST_CODE = 22;
     ArrayList<rateFood> ratelist;
     ArrayList<rateFood>[] data_list;
+    String uid;
     int d=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_today);
+        if(chkPermission()){
+            // 휴대폰 정보는 TelephonyManager 를 이용
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            // READ_PHONE_NUMBERS 또는 READ_PHONE_STATE 권한을 허가 받았는지 확인
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            uid= tm.getLine1Number();
+        }
         //데이터 가져오기 시작
         String resultText = "[NULL]";
         try {
@@ -74,8 +92,6 @@ public class TodayActivity extends Activity {
         for(int i=0;i<data_list[d].size();i++){
             addLine(data_list[d].get(i),i);
         }
-
-
     }
     private void addLine(rateFood data,int i){
         LinearLayout container= findViewById(R.id.container);
@@ -126,9 +142,39 @@ public class TodayActivity extends Activity {
 
         likes_form.addView(num);
         likes_form.setOnClickListener(view -> {
-            likes_form.setClickable(false);
-            Toast.makeText(TodayActivity.this,"TEST"+tv2.getText()+" OK", Toast.LENGTH_SHORT).show();
-            num.setText(""+(Integer.parseInt((String) num.getText())+1));
+            if(likes_form.isFocusable()==false){
+                Toast.makeText(this,"하루 한번만 추천 가능합니다.",Toast.LENGTH_SHORT).show();
+
+            }else {
+                final String[] rcode = {""};
+                new Thread(() -> {
+                    rcode[0] = new UpdateRate(tv2.getText().toString(), uid).doInBackground();
+                    if (rcode[0].equals("200")) {
+                        likes_form.setFocusable(false);
+                        Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 사용하고자 하는 코드
+                                Toast.makeText(TodayActivity.this, "" + tv2.getText() + " 추천했습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        }, 0);
+
+
+                        num.setText("" + (Integer.parseInt((String) num.getText()) + 1));
+                    } else {
+                        Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 사용하고자 하는 코드
+                                Toast.makeText(TodayActivity.this, "Error occured", Toast.LENGTH_SHORT).show();
+                            }
+                        }, 0);
+
+                    }
+                }).start();
+            }
         });
 
         newRow.addView(tv1,tv1params);
@@ -141,4 +187,47 @@ public class TodayActivity extends Activity {
 
 
     }
+
+
+
+    public boolean chkPermission() {
+        // 위험 권한을 모두 승인했는지 여부
+        boolean mPermissionsGranted = false;
+        String[] mRequiredPermissions = new String[1];
+        // 사용자의 안드로이드 버전에 따라 권한을 다르게 요청합니다
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // 11 이상인 경우
+            mRequiredPermissions[0] = Manifest.permission.READ_PHONE_NUMBERS;
+
+        }else{
+            // 10 이하인 경우
+            mRequiredPermissions[0] = Manifest.permission.READ_PRECISE_PHONE_STATE;
+        }
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // 필수 권한을 가지고 있는지 확인한다.
+            mPermissionsGranted = hasPermissions(mRequiredPermissions);
+
+            // 필수 권한 중에 한 개라도 없는 경우
+            if (!mPermissionsGranted) {
+                // 권한을 요청한다.
+                ActivityCompat.requestPermissions(this, mRequiredPermissions, PERMISSIONS_REQUEST_CODE);
+            }
+        } else {
+            mPermissionsGranted = true;
+        }
+
+        return mPermissionsGranted;
+    }
+    public boolean hasPermissions(String[] permissions) {
+        // 필수 권한을 가지고 있는지 확인한다.
+        for (String permission : permissions) {
+            if (checkCallingOrSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
