@@ -33,6 +33,7 @@ import org.w3c.dom.Text;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.zip.Inflater;
@@ -42,11 +43,14 @@ public class TodayActivity extends Activity {
     ArrayList<rateFood> ratelist;
     ArrayList<rateFood>[] data_list;
     String uid="";
-    int d=0;
+    Calendar c=Calendar.getInstance();
+    int d=c.get(Calendar.DAY_OF_WEEK)-2;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_today);
+        Log.e("요일",""+d);
         if(chkPermission()){
             // 휴대폰 정보는 TelephonyManager 를 이용
             TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);

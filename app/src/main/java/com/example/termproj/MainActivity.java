@@ -13,8 +13,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Intent loading = new Intent(this, LoadingActivity.class);
         startActivity(loading);
-
+        /*
         Intent today=new Intent(this,TodayActivity.class);
         startActivity(today);
+        */
+
     }
 }
