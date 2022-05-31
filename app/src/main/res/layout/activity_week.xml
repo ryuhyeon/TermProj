@@ -28,46 +28,26 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="오늘의 학식"
-                android:id="@+id/todayBtn"
-                android:clickable="false"
-                android:backgroundTint="@color/cardview_shadow_end_color"
-                />
+                android:id="@+id/todayBtn"/>
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="이번주 학식"
-                android:id="@+id/weekBtn"/>
+                android:id="@+id/weekBtn"
+                android:clickable="false"
+                android:backgroundTint="@color/cardview_shadow_end_color"/>
 
         </LinearLayout>
 
     </LinearLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8.5">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:textSize="35dp"
-            android:text="오늘의 학식"
-            android:id="@+id/title"/>
+        android:layout_weight="8.5"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@color/white"
-            android:id="@+id/container"
-            android:orientation="vertical"
-            android:padding="10dp"
-            >
-
-        </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>
