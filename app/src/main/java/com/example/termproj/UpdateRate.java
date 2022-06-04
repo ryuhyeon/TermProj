@@ -21,13 +21,14 @@ public class UpdateRate extends AsyncTask<String, Void, String> {
     private String str;
     private String uid;
     String APIkey="CPB5QJ3-9RN4SXB-G2MPDV9-MZ7MAST";
+    String serverURL="10.0.2.2";
     @Override
     protected String doInBackground(String... params) {
         URL url = null;
         String rcode="";
         try {
 
-            url = new URL("http://haksik.us-west-2.elasticbeanstalk.com/rate?apikey="+APIkey+"&menu='"+str+"'&uid="+uid); // 서버 URL
+            url = new URL("http://"+serverURL+"/rate?apikey="+APIkey+"&menu='"+str+"'&uid="+uid); // 서버 URL
             Log.e("URL:",url.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
