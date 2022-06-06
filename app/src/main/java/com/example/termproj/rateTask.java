@@ -42,7 +42,7 @@ public class rateTask extends AsyncTask<String, Void, String> {
         try {
 
             url = new URL("http://"+serverURL+"/rate?apikey="+APIkey+"&content="+s); // 서버 URL
-
+            Log.e("DEBUG SEND",url.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
             conn.setRequestMethod("GET");
