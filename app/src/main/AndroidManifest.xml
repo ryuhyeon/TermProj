@@ -32,6 +32,8 @@
         <activity android:name=".WeekActivity">
 
         </activity>
+        <activity android:name=".PopupActivity"    android:theme="@style/Theme.AppCompat.DayNight.Dialog"/>
+
     </application>
 
 </manifest>

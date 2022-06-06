@@ -59,12 +59,56 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@color/white"
+
         android:id="@+id/container"
         android:orientation="vertical"
         android:padding="10dp"
         >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="월요일"
+                android:id="@+id/Mon"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="화요일"
+                android:id="@+id/Tue"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="수요일"
+                android:id="@+id/Wen"/>
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="목요일"
+                android:id="@+id/Thr"
+                android:layout_marginLeft="50dp"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="금요일"
+                android:id="@+id/Fri"
+                android:layout_marginRight="50dp"/>
+
+
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
 

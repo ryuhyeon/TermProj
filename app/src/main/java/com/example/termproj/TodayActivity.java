@@ -41,6 +41,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.zip.Inflater;
 
 public class TodayActivity extends Activity {
+    public static Context context_main;
     private static final int PERMISSIONS_REQUEST_CODE = 22;
     ArrayList<rateFood> ratelist;
     ArrayList<rateFood>[] data_list;
@@ -52,6 +53,7 @@ public class TodayActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_today);
+        context_main=this;
         Log.e("요일",""+d);
         if(chkPermission()){
             // 휴대폰 정보는 TelephonyManager 를 이용
@@ -131,6 +133,7 @@ public class TodayActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent loading = new Intent(TodayActivity.this, WeekActivity.class);
+
                 startActivity(loading);
             }
         });
