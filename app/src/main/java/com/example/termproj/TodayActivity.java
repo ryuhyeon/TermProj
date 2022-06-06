@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -124,6 +126,14 @@ public class TodayActivity extends Activity {
                 addLine(data_list[d].get(i),i);
             }
         }
+        Button weekBtn=(Button)findViewById(R.id.weekBtn);
+        weekBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent loading = new Intent(TodayActivity.this, WeekActivity.class);
+                startActivity(loading);
+            }
+        });
     }
     private void addLine(rateFood data,int i){
         LinearLayout container= findViewById(R.id.container);
