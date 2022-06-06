@@ -44,8 +44,8 @@ public class TodayActivity extends Activity {
     ArrayList<rateFood>[] data_list;
     String uid="";
     Calendar c=Calendar.getInstance();
-    int d=c.get(Calendar.DAY_OF_WEEK)-2;
-
+    //int d=c.get(Calendar.DAY_OF_WEEK)-2;
+    int d=3;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,42 +60,69 @@ public class TodayActivity extends Activity {
             }
             uid= tm.getLine1Number();
         }
-        //데이터 가져오기 시작
-        String resultText = "[NULL]";
-        try {
-            resultText = new Task().execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        //Log.e("[DATA]",resultText);
-        ArrayList<String>[] day_data=Task.convertData(resultText);
-        data_list=Task.newConvertData(day_data);
-        //데이터 가져오기 완료
-        //추천 데이터 가져오기
-        String rateResult="[NULL]";
-        rateTask rate=new rateTask();
-        Log.e("DT : ",data_list[d].toString());
-        rate.dataTransfer(data_list[d]);
-        try {
-            rateResult = rate.execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        //Log.e("rateDATA",rateResult);
+        if(d>4) {
+            LinearLayout container = findViewById(R.id.container);
+            RelativeLayout newRow = new RelativeLayout(this);
+            newRow.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+            TextView tv2 = new TextView(this);
+            tv2.setText("주말엔 식당을 운영하지 않습니다.");
+            tv2.setGravity(Gravity.CENTER);
+            //tv2.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+            tv2.setTextColor(Color.BLACK);
+            tv2.setPadding(0, 10, 0, 0);
+            RelativeLayout.LayoutParams tv2params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            tv2params.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            tv2params.addRule(RelativeLayout.CENTER_IN_PARENT);
+            tv2params.leftMargin = 20;
+            tv2params.rightMargin = 20;
+            newRow.addView(tv2, tv2params);
+            container.addView(newRow, new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+        }else{
+            //데이터 가져오기 시작
+            String resultText = "[NULL]";
+            try {
+                resultText = new Task().execute().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            //Log.e("[DATA]",resultText);
+            ArrayList<String>[] day_data=Task.convertData(resultText);
+            data_list=Task.newConvertData(day_data);
+            //데이터 가져오기 완료
+            //추천 데이터 가져오기
+            String rateResult="[NULL]";
+            rateTask rate=new rateTask();
+            Log.e("DT : ",data_list[d].toString());
+            rate.dataTransfer(data_list[d]);
+            try {
+                rateResult = rate.execute().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            Log.e("DEBUG RES","\'"+rateResult+"\'");
+            if(rateResult!=null){
+                //Log.e("rateDATA",rateResult);
+                data_list[d] = rate.dataParse(rateResult);
+                for(int i=0;i<data_list[d].size();i++){
+                    Log.e("parsered","name:"+data_list[d].get(i).getContent_name()+"   star : "+data_list[d].get(i).getTotal_star());
+                }
+            }
 
-        data_list[d] = rate.dataParse(rateResult);
-        for(int i=0;i<data_list[d].size();i++){
-            Log.e("parsered","name:"+data_list[d].get(i).getContent_name()+"   star : "+data_list[d].get(i).getTotal_star());
-        }
-
-        //추천 데이터 종료
-        //줄 추가
-        for(int i=0;i<data_list[d].size();i++){
-            addLine(data_list[d].get(i),i);
+            //추천 데이터 종료
+            //줄 추가
+            for(int i=0;i<data_list[d].size();i++){
+                addLine(data_list[d].get(i),i);
+            }
         }
     }
     private void addLine(rateFood data,int i){

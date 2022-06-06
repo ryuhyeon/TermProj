@@ -25,7 +25,7 @@ public class Task extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         URL url = null;
-        String serverURL="10.0.2.2";
+        String serverURL="10.0.2.2:3000";
         String APIkey="CPB5QJ3-9RN4SXB-G2MPDV9-MZ7MAST";
         try {
             url = new URL("http://"+serverURL+"/get/haksik_data?apikey="+APIkey); // 서버 URL

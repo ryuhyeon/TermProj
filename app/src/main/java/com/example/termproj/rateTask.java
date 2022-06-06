@@ -26,7 +26,7 @@ public class rateTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         URL url = null;
         String APIkey="CPB5QJ3-9RN4SXB-G2MPDV9-MZ7MAST";
-        String serverURL="10.0.2.2";
+        String serverURL="10.0.2.2:3000";
         String s="";
         for(int i=0;i<newData.size();i++){
             s+="\'";

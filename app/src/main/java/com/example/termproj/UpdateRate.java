@@ -21,7 +21,7 @@ public class UpdateRate extends AsyncTask<String, Void, String> {
     private String str;
     private String uid;
     String APIkey="CPB5QJ3-9RN4SXB-G2MPDV9-MZ7MAST";
-    String serverURL="10.0.2.2";
+    String serverURL="10.0.2.2:3000";
     @Override
     protected String doInBackground(String... params) {
         URL url = null;
