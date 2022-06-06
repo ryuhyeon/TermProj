@@ -47,8 +47,8 @@ public class TodayActivity extends Activity {
     ArrayList<rateFood>[] data_list;
     String uid="";
     Calendar c=Calendar.getInstance();
-    //int d=c.get(Calendar.DAY_OF_WEEK)-2;
-    int d=3;
+    int d=c.get(Calendar.DAY_OF_WEEK)-1;
+    //int d=3;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -27,7 +27,7 @@ public class WeekActivity extends AppCompatActivity {
         });
         ArrayList<rateFood>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
 
-        Toast.makeText(this,data_list[1].get(0).getContent_name(),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,data_list[1].get(0).getContent_name(),Toast.LENGTH_SHORT).show();
         Button[] btn=new Button[5];
         btn[0]=(Button) findViewById(R.id.Mon);
         btn[1]=(Button) findViewById(R.id.Tue);
