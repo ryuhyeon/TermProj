@@ -1,8 +1,10 @@
 package com.example.termproj;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,10 +27,31 @@ public class PopupActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+       //getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(R.layout.popup_layout);
         ArrayList<rateFood>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
         Intent intent=getIntent();
         int d=intent.getIntExtra("day",-1);
+        String t="";
+        switch(d){
+            case 0:
+                t="월요일";
+                break;
+            case 1:
+                t="화요일";
+                break;
+            case 2:
+                t="수요일";
+                break;
+            case 3:
+                t="목요일";
+                break;
+            case 4:
+                t="금요일";
+                break;
+        }
+        setTitle(t);
         for(int i=0;i<data_list[d].size();i++){
             addLine(data_list[d].get(i),i);
         }
