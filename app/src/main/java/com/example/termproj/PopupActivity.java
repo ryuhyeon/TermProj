@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,9 +32,31 @@ public class PopupActivity extends AppCompatActivity {
         
        //getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(R.layout.popup_layout);
+
         ArrayList<rateFood>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
+
+
         Intent intent=getIntent();
         int d=intent.getIntExtra("day",-1);
+        String rateResult="[NULL]";
+        rateTask rate=new rateTask();
+        Log.e("DT : ",data_list[d].toString());
+        rate.dataTransfer(data_list[d]);
+        try {
+            rateResult = rate.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        Log.e("DEBUG RES","\'"+rateResult+"\'");
+        if(rateResult!=null){
+            //Log.e("rateDATA",rateResult);
+            data_list[d] = rate.dataParse(rateResult);
+            for(int i=0;i<data_list[d].size();i++){
+                Log.e("parsered","name:"+data_list[d].get(i).getContent_name()+"   star : "+data_list[d].get(i).getTotal_star());
+            }
+        }
         String t="";
         switch(d){
             case 0:
