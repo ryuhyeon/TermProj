@@ -1,7 +1,6 @@
 package com.example.termproj;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,32 +18,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.*;
-import org.w3c.dom.Text;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
-import java.util.zip.Inflater;
 
 public class TodayActivity extends Activity {
     public static Context context_main;
     private static final int PERMISSIONS_REQUEST_CODE = 22;
-    ArrayList<rateFood> ratelist;
-    ArrayList<rateFood>[] data_list;
+    ArrayList<FoodDTO> ratelist;
+    ArrayList<FoodDTO>[] data_list;
     String uid="";
     Calendar c=Calendar.getInstance();
     int d=c.get(Calendar.DAY_OF_WEEK)-1;
@@ -103,7 +91,7 @@ public class TodayActivity extends Activity {
             //데이터 가져오기 완료
             //추천 데이터 가져오기
             String rateResult="[NULL]";
-            rateTask rate=new rateTask();
+            GetRateTask rate=new GetRateTask();
             Log.e("DT : ",data_list[d].toString());
             rate.dataTransfer(data_list[d]);
             try {
@@ -146,7 +134,7 @@ public class TodayActivity extends Activity {
             }
         });
     }
-    private void addLine(rateFood data,int i){
+    private void addLine(FoodDTO data, int i){
         LinearLayout container= findViewById(R.id.container);
 
         RelativeLayout newRow=new RelativeLayout(this);
@@ -207,7 +195,7 @@ public class TodayActivity extends Activity {
             }else {
                 final String[] rcode = {""};
                 new Thread(() -> {
-                    rcode[0] = new UpdateRate(tv2.getText().toString(), uid).doInBackground();
+                    rcode[0] = new PostRateTask(tv2.getText().toString(), uid).doInBackground();
                     if (rcode[0].equals("200")) {
                         likes_form.setFocusable(false);
                         Handler mHandler = new Handler(Looper.getMainLooper());

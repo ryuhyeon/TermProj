@@ -21,7 +21,7 @@ public class RankingTask extends AsyncTask<String, Void, String> {
     private String str, receiveMsg;
     //private final String ID = "########";
     ArrayList<String> data;
-    ArrayList<rateFood> newData;
+    ArrayList<FoodDTO> newData;
     @Override
     protected String doInBackground(String... params) {
         URL url = null;
@@ -67,9 +67,9 @@ public class RankingTask extends AsyncTask<String, Void, String> {
         return receiveMsg;
     }
 
-    public ArrayList<rateFood> dataParse(String s){
+    public ArrayList<FoodDTO> dataParse(String s){
         try{
-            ArrayList<rateFood> list=new ArrayList<rateFood>();
+            ArrayList<FoodDTO> list=new ArrayList<FoodDTO>();
             JSONObject obj;
             JSONArray arr=new JSONArray(s);
             String[] jsonName={"content_name","total_star"};
@@ -77,7 +77,7 @@ public class RankingTask extends AsyncTask<String, Void, String> {
                 obj=arr.getJSONObject(i);
                 Log.e("debug",obj.getString(jsonName[0]));
                 if(obj!=null){
-                    rateFood food=new rateFood();
+                    FoodDTO food=new FoodDTO();
                     if(obj.getString(jsonName[0]).contains("and")){
                         food.setContent_name(obj.getString(jsonName[0]).replace("and","&"));
                     }else {

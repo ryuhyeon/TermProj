@@ -1,7 +1,6 @@
 package com.example.termproj;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +29,7 @@ public class RankingActivity extends AppCompatActivity {
 
 
         String resultStr="[NULL]";
-        ArrayList<rateFood> ranking=null;
+        ArrayList<FoodDTO> ranking=null;
         try {
             resultStr=new RankingTask().execute().get();
             ranking=new RankingTask().dataParse(resultStr);
@@ -47,7 +46,7 @@ public class RankingActivity extends AppCompatActivity {
             addLine(ranking.get(i),i);
         }
     }
-    private void addLine(rateFood data,int i){
+    private void addLine(FoodDTO data, int i){
         LinearLayout container= findViewById(R.id.container);
 
         RelativeLayout newRow=new RelativeLayout(this);
