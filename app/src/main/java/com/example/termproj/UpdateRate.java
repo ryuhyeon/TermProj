@@ -26,6 +26,8 @@ public class UpdateRate extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         URL url = null;
         String rcode="";
+        str=str.replaceAll("&","and");
+
         try {
 
             url = new URL("http://"+serverURL+"/rate?apikey="+APIkey+"&menu='"+str+"'&uid="+uid); // 서버 URL

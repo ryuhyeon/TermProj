@@ -30,7 +30,7 @@ public class rateTask extends AsyncTask<String, Void, String> {
         String s="";
         for(int i=0;i<newData.size();i++){
             s+="\'";
-            s+=newData.get(i).getContent_name().replace("&","과");
+            s+=newData.get(i).getContent_name().replace("&","and");
             if(i==newData.size()-1){
                 s+="\'";
                 break;
@@ -94,6 +94,11 @@ public class rateTask extends AsyncTask<String, Void, String> {
                     for(int j=0;j<newData.size();j++){
                         if(newData.get(j).getContent_name().equals(obj.getString(jsonName[0]))){
                             newData.get(j).setTotal_star(obj.getInt(jsonName[1]));
+                        }
+                        else if(newData.get(j).getContent_name().contains("&")){
+                            if(newData.get(j).getContent_name().replace("&","").equals(obj.getString(jsonName[0]).replace("and",""))){
+                                newData.get(j).setTotal_star(obj.getInt(jsonName[1]));
+                            }
                         }
                     }
                 }

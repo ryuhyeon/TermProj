@@ -68,6 +68,12 @@
             >
 
         </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="학식 랭킹"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/rank"/>
     </RelativeLayout>
 
 

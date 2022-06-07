@@ -1,13 +1,9 @@
 package com.example.termproj;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,7 +12,6 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -24,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class PopupActivity extends AppCompatActivity {
+public class RankingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +28,8 @@ public class PopupActivity extends AppCompatActivity {
        //getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(R.layout.popup_layout);
 
-        ArrayList<rateFood>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
 
+        
 
         Intent intent=getIntent();
         int d=intent.getIntExtra("day",-1);
@@ -57,25 +52,8 @@ public class PopupActivity extends AppCompatActivity {
                 Log.e("parsered","name:"+data_list[d].get(i).getContent_name()+"   star : "+data_list[d].get(i).getTotal_star());
             }
         }
-        String t="";
-        switch(d){
-            case 0:
-                t="월요일";
-                break;
-            case 1:
-                t="화요일";
-                break;
-            case 2:
-                t="수요일";
-                break;
-            case 3:
-                t="목요일";
-                break;
-            case 4:
-                t="금요일";
-                break;
-        }
-        setTitle(t);
+
+        setTitle("메뉴 추천 랭킹");
         for(int i=0;i<data_list[d].size();i++){
             addLine(data_list[d].get(i),i);
         }
@@ -92,7 +70,7 @@ public class PopupActivity extends AppCompatActivity {
         ));
 
         TextView tv1=new TextView(this);
-        tv1.setText("◎");
+        tv1.setText("1위 :");
         tv1.setGravity(Gravity.CENTER);
         //tv1.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
         tv1.setTextColor(Color.BLACK);

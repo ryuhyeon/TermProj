@@ -45,6 +45,14 @@ public class WeekActivity extends AppCompatActivity {
                 }
             });
         }
+        Button rankBtn=(Button)findViewById(R.id.rank);
+        rankBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent popup = new Intent(WeekActivity.this, PopupActivity.class);
+                popup.putExtra("day",finalI);
+            }
+        });
     }
 
 }
