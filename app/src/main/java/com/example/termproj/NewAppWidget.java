@@ -3,22 +3,10 @@ package com.example.termproj;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -34,7 +22,7 @@ public class NewAppWidget extends AppWidgetProvider {
         }
         RemoteViews widget=new RemoteViews(context.getPackageName(),R.layout.new_app_widget);
         String s="";
-        ArrayList<rateFood>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
+        ArrayList<FoodDTO>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
         if(data_list!=null)
         {
             for(int i=0;i<data_list[d].size();i++) {
@@ -61,7 +49,7 @@ public class NewAppWidget extends AppWidgetProvider {
 
         RemoteViews widget=new RemoteViews(context.getPackageName(),R.layout.new_app_widget);
         String s="";
-        ArrayList<rateFood>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
+        ArrayList<FoodDTO>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
         if(data_list!=null)
         {
             for(int i=0;i<data_list[d].size();i++) {

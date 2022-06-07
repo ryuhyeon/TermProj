@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class UpdateRate extends AsyncTask<String, Void, String> {
+public class PostRateTask extends AsyncTask<String, Void, String> {
 
 
     private String str;
@@ -57,7 +57,7 @@ public class UpdateRate extends AsyncTask<String, Void, String> {
 
         return rcode;
     }
-    UpdateRate(String s,String uid){
+    PostRateTask(String s, String uid){
         str=s;
         this.uid=uid;
     }

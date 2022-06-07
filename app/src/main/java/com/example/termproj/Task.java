@@ -3,10 +3,6 @@ package com.example.termproj;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -90,17 +86,17 @@ public class Task extends AsyncTask<String, Void, String> {
         Log.e("TEST : ",day_data[0].get(0));
         return day_data;
     }
-    public static ArrayList<rateFood>[] newConvertData(ArrayList<String>[] list){
-        ArrayList<rateFood>[] data=new ArrayList[5];
+    public static ArrayList<FoodDTO>[] newConvertData(ArrayList<String>[] list){
+        ArrayList<FoodDTO>[] data=new ArrayList[5];
         for(int i=0;i<list.length;i++)
-            data[i]=new ArrayList<rateFood>();
+            data[i]=new ArrayList<FoodDTO>();
 
 
 
 
         for(int i=0;i<list.length;i++){
             for(int j=0;j<list[i].size();j++){
-                rateFood obj=new rateFood();
+                FoodDTO obj=new FoodDTO();
                 obj.setContent_name(list[i].get(j));
                 obj.setTotal_star(0);
                 data[i].add(obj);

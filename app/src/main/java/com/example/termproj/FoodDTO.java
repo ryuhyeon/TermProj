@@ -1,6 +1,6 @@
 package com.example.termproj;
 
-public class rateFood {
+public class FoodDTO {
     public String getContent_name() {
         return content_name;
     }

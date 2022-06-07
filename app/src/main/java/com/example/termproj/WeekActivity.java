@@ -1,11 +1,9 @@
 package com.example.termproj;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,7 +23,7 @@ public class WeekActivity extends AppCompatActivity {
                 finish();
             }
         });
-        ArrayList<rateFood>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
+        ArrayList<FoodDTO>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
 
         //Toast.makeText(this,data_list[1].get(0).getContent_name(),Toast.LENGTH_SHORT).show();
         Button[] btn=new Button[5];

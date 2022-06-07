@@ -15,13 +15,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class rateTask extends AsyncTask<String, Void, String> {
+public class GetRateTask extends AsyncTask<String, Void, String> {
 
     //String clientKey = "#########################";
     private String str, receiveMsg;
     //private final String ID = "########";
     ArrayList<String> data;
-    ArrayList<rateFood> newData;
+    ArrayList<FoodDTO> newData;
     @Override
     protected String doInBackground(String... params) {
         URL url = null;
@@ -76,13 +76,13 @@ public class rateTask extends AsyncTask<String, Void, String> {
 
         return receiveMsg;
     }
-    public void dataTransfer(ArrayList<rateFood> data){
+    public void dataTransfer(ArrayList<FoodDTO> data){
         this.newData=data;
     }
 
-    public ArrayList<rateFood> dataParse(String s){
+    public ArrayList<FoodDTO> dataParse(String s){
         try{
-            ArrayList<rateFood> list=new ArrayList<rateFood>();
+            ArrayList<FoodDTO> list=new ArrayList<FoodDTO>();
             JSONObject obj;
             JSONArray arr=new JSONArray(s);
             String[] jsonName={"content_name","total_star"};

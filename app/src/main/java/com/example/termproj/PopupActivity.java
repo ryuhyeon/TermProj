@@ -1,13 +1,9 @@
 package com.example.termproj;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,7 +12,6 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -33,13 +28,13 @@ public class PopupActivity extends AppCompatActivity {
        //getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setContentView(R.layout.popup_layout);
 
-        ArrayList<rateFood>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
+        ArrayList<FoodDTO>[] data_list=((TodayActivity)TodayActivity.context_main).data_list;
 
 
         Intent intent=getIntent();
         int d=intent.getIntExtra("day",-1);
         String rateResult="[NULL]";
-        rateTask rate=new rateTask();
+        GetRateTask rate=new GetRateTask();
         Log.e("DT : ",data_list[d].toString());
         rate.dataTransfer(data_list[d]);
         try {
@@ -81,7 +76,7 @@ public class PopupActivity extends AppCompatActivity {
         }
 
     }
-    private void addLine(rateFood data,int i){
+    private void addLine(FoodDTO data, int i){
         LinearLayout container= findViewById(R.id.container);
 
         RelativeLayout newRow=new RelativeLayout(this);
