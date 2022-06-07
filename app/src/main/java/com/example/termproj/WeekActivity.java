@@ -49,8 +49,8 @@ public class WeekActivity extends AppCompatActivity {
         rankBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent popup = new Intent(WeekActivity.this, PopupActivity.class);
-                popup.putExtra("day",finalI);
+                Intent popup = new Intent(WeekActivity.this, RankingActivity.class);
+                startActivity(popup);
             }
         });
     }

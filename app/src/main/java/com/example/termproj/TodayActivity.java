@@ -137,6 +137,14 @@ public class TodayActivity extends Activity {
                 startActivity(loading);
             }
         });
+        Button rankBtn=(Button)findViewById(R.id.rank);
+        rankBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent popup = new Intent(TodayActivity.this, RankingActivity.class);
+                startActivity(popup);
+            }
+        });
     }
     private void addLine(rateFood data,int i){
         LinearLayout container= findViewById(R.id.container);

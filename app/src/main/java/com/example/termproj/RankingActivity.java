@@ -29,35 +29,23 @@ public class RankingActivity extends AppCompatActivity {
         setContentView(R.layout.popup_layout);
 
 
-        
-
-        Intent intent=getIntent();
-        int d=intent.getIntExtra("day",-1);
-        String rateResult="[NULL]";
-        rateTask rate=new rateTask();
-        Log.e("DT : ",data_list[d].toString());
-        rate.dataTransfer(data_list[d]);
+        String resultStr="[NULL]";
+        ArrayList<rateFood> ranking=null;
         try {
-            rateResult = rate.execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            resultStr=new RankingTask().execute().get();
+            ranking=new RankingTask().dataParse(resultStr);
         } catch (ExecutionException e) {
             e.printStackTrace();
-        }
-        Log.e("DEBUG RES","\'"+rateResult+"\'");
-        if(rateResult!=null){
-            //Log.e("rateDATA",rateResult);
-            data_list[d] = rate.dataParse(rateResult);
-            for(int i=0;i<data_list[d].size();i++){
-                Log.e("parsered","name:"+data_list[d].get(i).getContent_name()+"   star : "+data_list[d].get(i).getTotal_star());
-            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         setTitle("메뉴 추천 랭킹");
-        for(int i=0;i<data_list[d].size();i++){
-            addLine(data_list[d].get(i),i);
+        Log.e("size",ranking.size()+"");
+        for(int i=0;i<ranking.size();i++){
+            Log.e("dvdvd",ranking.get(i).getContent_name()+ranking.get(i).getTotal_star());
+            addLine(ranking.get(i),i);
         }
-
     }
     private void addLine(rateFood data,int i){
         LinearLayout container= findViewById(R.id.container);
@@ -70,7 +58,7 @@ public class RankingActivity extends AppCompatActivity {
         ));
 
         TextView tv1=new TextView(this);
-        tv1.setText("1위 :");
+        tv1.setText((i+1)+"위 :");
         tv1.setGravity(Gravity.CENTER);
         //tv1.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
         tv1.setTextColor(Color.BLACK);
