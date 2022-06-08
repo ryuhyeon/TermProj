@@ -3,10 +3,6 @@ package com.example.termproj;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,8 +21,10 @@ public class Task extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         URL url = null;
+        String serverURL="termproject-haksik.herokuapp.com";
+        String APIkey="CPB5QJ3-9RN4SXB-G2MPDV9-MZ7MAST";
         try {
-            url = new URL("http://haksik.us-west-2.elasticbeanstalk.com/get/haksik_data"); // 서버 URL
+            url = new URL("http://"+serverURL+"/get/haksik_data?apikey="+APIkey); // 서버 URL
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
@@ -87,5 +85,24 @@ public class Task extends AsyncTask<String, Void, String> {
         }
         Log.e("TEST : ",day_data[0].get(0));
         return day_data;
+    }
+    public static ArrayList<FoodDTO>[] newConvertData(ArrayList<String>[] list){
+        ArrayList<FoodDTO>[] data=new ArrayList[5];
+        for(int i=0;i<list.length;i++)
+            data[i]=new ArrayList<FoodDTO>();
+
+
+
+
+        for(int i=0;i<list.length;i++){
+            for(int j=0;j<list[i].size();j++){
+                FoodDTO obj=new FoodDTO();
+                obj.setContent_name(list[i].get(j));
+                obj.setTotal_star(0);
+                data[i].add(obj);
+            }
+        }
+
+        return data;
     }
 }

@@ -10,5 +10,5 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/logo2"/>
+        android:src="@drawable/ic_launcher_foreground"/>
 </RelativeLayout>
